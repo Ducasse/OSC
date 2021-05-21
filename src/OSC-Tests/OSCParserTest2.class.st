@@ -65,22 +65,10 @@ OSCParserTest2 >> setUpNumberArray [
 
 { #category : #tests }
 OSCParserTest2 >> testParseAllInBundle [
-	self assert:  (messages size = 13 ) .
-	self assert:  ((messages at: 2) second = 'alive') .
-	self assert:  ((messages at: 12) second = 'set') .
-	self assert:  ((messages at: 13) second = 'fseq') .
-
-
-]
-
-{ #category : #testSuite }
-OSCParserTest2 >> testSuite [
-	| suite  |
-	suite := TestSuite named: 'Parse the Full message'.
-	suite addTest: (OSCParserTest2 selector: #testParseAllInBundle).		
-	^ suite
-
-
+	self assert:  messages size equals: 13.
+	self assert:  (messages at: 2) second equals: 'alive'.
+	self assert:  (messages at: 12) second equals: 'set'.
+	self assert:  (messages at: 13) second equals: 'fseq'
 
 
 ]

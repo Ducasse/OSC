@@ -24,5 +24,5 @@ OSCStringTest >> testPrintOnOSCStream [
 			nextPutAll: (Array new: 4 withAll: (Character value: 0));
 			contents).
 	'abcd' printOnOSCStream: aStream.
-	self assert: (aStream ascii contents = aString)
+	self assert: aStream ascii contents equals: aString
 ]

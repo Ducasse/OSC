@@ -11,6 +11,6 @@ OSCServerTest >> testSendAndReceive [
 	[OSCMessage example1 sendTo: NetNameResolver localHostAddress port: 5432.
 	(Delay forDuration: (Duration milliSeconds: 30)) wait.
 	self assert: server hasMessage.
-	self assert: server nextMessage = #('/example1' 100 )] 
+	self assert: server nextMessage equals: #('/example1' 100 )] 
 			ensure: [server terminate]
 ]

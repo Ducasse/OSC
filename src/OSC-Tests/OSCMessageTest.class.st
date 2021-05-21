@@ -11,7 +11,7 @@ OSCMessageTest >> testByteArrayDecreaseVolume [
 	|aByteArray|
 	aByteArray := #(47 115 99 47 109 105 120 101 114 47 118 111 108 117 109 101 0 0 0 0 
 					44 105 102 0 0 0 0 1 62 76 204 205) asByteArray.
-	self assert: (OSCMessage exampleSCDecreaseVolume byteArray = aByteArray)
+	self assert: OSCMessage exampleSCDecreaseVolume byteArray equals: aByteArray
 ]
 
 { #category : #tests }
@@ -21,20 +21,24 @@ OSCMessageTest >> testByteArrayIncreaseVolume [
 	| aByteArray |
 	aByteArray := #(47 115 99 47 109 105 120 101 114 47 118 111 108 117 109 101 0 0 0 0 44
 					105 102 0 0 0 0 1 63 128 0 0) asByteArray.
-	self assert: (OSCMessage exampleSCIncreaseVolume byteArray = aByteArray)
+	self assert: OSCMessage exampleSCIncreaseVolume byteArray equals: aByteArray
 ]
 
 { #category : #tests }
 OSCMessageTest >> testByteArrayRun [
 	" self debug: #testByteArrayRun "
-	self assert: (OSCMessage exampleSCRun byteArray = ('/sc/run',(String with: (Character value: 0) with: $,)) asByteArray)
+	self 
+		assert: OSCMessage exampleSCRun byteArray 
+		equals: ('/sc/run',(String with: (Character value: 0) with: $,)) asByteArray
 ]
 
 { #category : #tests }
 OSCMessageTest >> testByteArrayStop [
 	" self debug: #testByteArrayStop "
 	
-	self assert: (OSCMessage exampleSCStop byteArray = ('/sc/stop',((String new: 4 withAll: (Character value: 0)),',')) asByteArray)
+	self 
+		assert: OSCMessage exampleSCStop byteArray 
+		equals: ('/sc/stop',((String new: 4 withAll: (Character value: 0)),',')) asByteArray
 
 
 ]
@@ -55,5 +59,7 @@ OSCMessageTest >> testExampleBerkeley2 [
  16r6F   0 0 0
 16r3F 16r9D  16rF3  16rB6
  16r40  16rB5   16rB2  16r2D ) asByteArray.
-	self assert: (OSCMessage exampleBerkeley2 byteArray = aByteArray)
+	self 
+		assert: OSCMessage exampleBerkeley2 byteArray 
+		equals: aByteArray
 ]

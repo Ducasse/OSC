@@ -18,5 +18,5 @@ OSCSmallIntegerTest >> testPrintOnOSCStream [
 			nextPut: 100;
 			contents).
 	1124 printOnOSCStream: aStream.
-	self assert: ( aStream contents = aByteArray)
+	self assert: aStream contents equals: aByteArray
 ]

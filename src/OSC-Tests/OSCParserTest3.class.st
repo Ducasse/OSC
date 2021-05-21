@@ -96,24 +96,13 @@ OSCParserTest3 >> streamFromArray: anArray [
 	
 ]
 
-{ #category : #testSuite }
-OSCParserTest3 >> testSuite [
-	| suite  |
-	suite := TestSuite named: 'ParseStringsUsingWordAlignment'.
-	suite  addTest: (OSCParserTest3 selector: #testWordAlignment).		
-	^ suite
-
-		
-
-]
-
 { #category : #tests }
 OSCParserTest3 >> testWordAlignment [
 
 	parsedMessages keysAndValuesDo: [ :key :value | 
 		"Transcript cr; show:  ' Actual - ' , ((parsedMessages at:key) first second); cr.
 		Transcript cr; show:  ' Should be - ', ( string copyFrom: key to: string size ); cr."
-		 self assert:  ((parsedMessages at: key) first second ) =  ( string copyFrom: key to: string size )  ].
+		 self assert:  ((parsedMessages at: key) first second ) equals:  (string copyFrom: key to: string size) ].
 
 
 

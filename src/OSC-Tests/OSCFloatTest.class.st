@@ -20,5 +20,5 @@ OSCFloatTest >> testPrintOnOSCStream [
 			nextPut: 113;
 			contents).
 	10.7567 printOnOSCStream: aStream.
-	self assert: ( aStream contents = aByteArray)
+	self assert: aStream contents equals: aByteArray
 ]
