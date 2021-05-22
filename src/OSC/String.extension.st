@@ -11,6 +11,6 @@ String >> printOnOSCStream: aStream [
 
 { #category : #'*OSC-printing' }
 String >> printTypeOnOSCStream: aStream [
-	aStream nextPut: $s
+	aStream nextPut: $s asInteger
 
 ]

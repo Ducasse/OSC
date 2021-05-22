@@ -94,12 +94,9 @@ OSCMessage >> printAddress: anAddress onOSCStream: aStream [
 
 { #category : #printing }
 OSCMessage >> printTypesOf: someValues on: aStream [
-
-	|aNullChar|	
 	someValues isEmpty ifTrue: [^self].	
-	aNullChar := Character value: 0.
 	someValues do: [ :each | each printTypeOnOSCStream: aStream ].
-	(4 - (aStream position \\ 4)) timesRepeat: [ aStream nextPut: aNullChar ]
+	(4 - (aStream position \\ 4)) timesRepeat: [ aStream nextPut: 0 ]
 
 ]
 

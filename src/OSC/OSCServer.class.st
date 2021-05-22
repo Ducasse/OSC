@@ -33,19 +33,18 @@ OSCServer >> initialize [
 
 { #category : #action }
 OSCServer >> listenOnPort: aPort [
-	|  dataStream buf anArray sizeOfBuf |
+	| buffer bytesReceived |
 	self terminate.
-	socket := (Socket udpCreateIfFail: [self error: 'Problems connecting to:',aPort asString]) setPort:  aPort.
+	socket := (Socket udpCreateIfFail: [self error: 'Problems connecting to:',aPort asString]) setPort: aPort.
 	process := 
 	[
-		[dataStream := (RWBinaryOrTextStream on: (String new: 2048)) binary;yourself.
-		buf := String new: 2048. 
-		anArray:=socket receiveUDPDataInto: buf.
-		sizeOfBuf := anArray first.
-		1 to: sizeOfBuf do: [:ii | dataStream nextPut: (buf at: ii)].
-		dataStream reset.
-		sizeOfBuf > 0 ifTrue: [ self receive: dataStream] ] 
-			repeat ]  forkAt: Processor userBackgroundPriority.
+		buffer := ByteArray new: 2048.
+		[
+			bytesReceived := (socket receiveUDPDataInto: buffer) first 
+			"N.B.: receiveUDPDataInto: returns an array with [bytesReceived | IP Address | port | more datagrams follow?]".
+			bytesReceived > 0 ifTrue: [ self receive: (buffer copyFrom: 1 to: bytesReceived) readStream].
+		] repeat 
+	] forkAt: Processor userBackgroundPriority.
 
 ]
 
@@ -55,10 +54,9 @@ OSCServer >> nextMessage [
 ]
 
 { #category : #action }
-OSCServer >> receive:aByteStream [
-
-	(OSCParser parse: aByteStream ascii) 
-		do: [:eachMessageArray |  messageQueue nextPut:eachMessageArray ].
+OSCServer >> receive: aByteStream [
+	(OSCParser parse: aByteStream)
+		do: [:eachMessageArray |  messageQueue nextPut: eachMessageArray].
 	Delay forMilliseconds: responsePeriod.
 ]
 
