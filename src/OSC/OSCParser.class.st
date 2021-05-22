@@ -17,9 +17,12 @@ Class {
 OSCParser class >> parse: aByteStream [
 	| messageArrays messageArray |		
 	messageArrays := OrderedCollection new.	
-	[ aByteStream atEnd] whileFalse:
-	      [ messageArray := (self new initializeFor: aByteStream) parse.
-		messageArray ifNotNil: [ messageArrays add: messageArray asArray ]].
+	[aByteStream atEnd] whileFalse: [
+		messageArray := (self new initializeFor: aByteStream) parse.
+		messageArray ifNotNil: [
+			messageArrays add: messageArray asArray 
+		]
+	].
 	^messageArrays
 ]
 
@@ -51,29 +54,31 @@ OSCParser >> parseFloat [
 
 { #category : #accessing }
 OSCParser >> parseHeader [
-	message add: ((byteStream ascii upTo: $, ) copyWithout: (Character value: 0))
+	|header|
+	header := (byteStream upTo: $, asInteger) copyWithout: 0.
+	message add: (ZnCharacterEncoder ascii decodeBytes: header).
 
 ]
 
 { #category : #accessing }
 OSCParser >> parseInt32 [
-	message add: byteStream binary nextInt32
+	message add: byteStream nextInt32
 ]
 
 { #category : #accessing }
 OSCParser >> parseNextValueTyped: aType [
-	aType = $i ifTrue: [^self parseInt32].
-	aType = $f ifTrue: [^self parseFloat].
-	aType = $s ifTrue: [^self parseString].
-	aType = $b ifTrue: [^self parseBlob]
+	aType = 105 "i" ifTrue: [^self parseInt32].
+	aType = 102 "f" ifTrue: [^self parseFloat].
+	aType = 115 "s" ifTrue: [^self parseString].
+	aType = 98  "b" ifTrue: [^self parseBlob]
 
 
 ]
 
 { #category : #parse }
 OSCParser >> parseString [
-	message add:  (byteStream ascii upTo: (Character value: 0)).
-	(4 - (byteStream position))\\4  timesRepeat: [   byteStream next  ]
+	message add: (ZnCharacterEncoder ascii decodeBytes: (byteStream upTo: 0)).
+	(4 - (byteStream position)) \\ 4 timesRepeat: [ byteStream next ]
 	
 ]
 
@@ -81,13 +86,14 @@ OSCParser >> parseString [
 OSCParser >> parseTypes [
 	| next |
 	byteStream atEnd ifTrue: [^self].
-	next:= byteStream next.
-	next = (Character value: 0) 
-		ifTrue: [
-			((4 - (byteStream position \\ 4)) \\ 4) timesRepeat: [byteStream next].
-			^self].
-	('ifsb' includes: next) ifTrue: [types add: next].
-	self parseTypes
+	next := byteStream next.
+	next = 0 ifTrue: [
+		((4 - (byteStream position \\ 4)) \\ 4) timesRepeat: [byteStream next].
+		^self
+	].
+	  "i   f   s   b"
+	(#[105 102 115 98] includes: next) ifTrue: [types add: next].
+	self parseTypes.
 ]
 
 { #category : #accessing }

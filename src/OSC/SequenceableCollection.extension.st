@@ -7,7 +7,7 @@ SequenceableCollection >> printOnOSCStream: aStream [
 
 { #category : #'*OSC-printing' }
 SequenceableCollection >> printTypeOnOSCStream: aStream [
-	aStream nextPut: $[.
+	aStream nextPut: $[ asInteger.
 	self do: [:each | each printTypeOnOSCStream: aStream].
-	aStream nextPut: $]
+	aStream nextPut: $] asInteger.
 ]

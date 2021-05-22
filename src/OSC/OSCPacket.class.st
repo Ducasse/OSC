@@ -22,17 +22,20 @@ OSCPacket >> byteStream [
 	^byteStream
 ]
 
+{ #category : #accessing }
+OSCPacket >> bytes [
+	^self byteStream contents
+]
+
 { #category : #initialization }
 OSCPacket >> initializeFor: somePackets [
-	byteStream := 
-		(RWBinaryOrTextStream on: '')
-			yourself.
+	byteStream := ByteArray new writeStream.
 	self print: somePackets onOSCStream: byteStream
 ]
 
 { #category : #accessing }
 OSCPacket >> oSCSize [
-	^self byteArray size
+	^self bytes size
 ]
 
 { #category : #printing }
@@ -50,7 +53,7 @@ OSCPacket >> sendTo: aByteArray port: aPort [
 	Socket initializeNetwork.
 	aSocket := Socket newUDP.
 	aSocket
-		sendUDPData: self byteArray
+		sendUDPData: self bytes
 		toHost: aByteArray
 		port: aPort;
 		 close;

@@ -7,5 +7,5 @@ SmallInteger >> printOnOSCStream: aStream [
 
 { #category : #'*OSC-printing' }
 SmallInteger >> printTypeOnOSCStream: aStream [
-	aStream nextPut: $i
+	aStream nextPut: $i asInteger.
 ]

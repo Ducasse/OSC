@@ -7,6 +7,6 @@ UndefinedObject >> printOnOSCStream: aStream [
 
 { #category : #'*OSC-printing' }
 UndefinedObject >> printTypeOnOSCStream: aStream [
-	aStream nextPut: $N
+	aStream nextPut: $N asInteger
 
 ]

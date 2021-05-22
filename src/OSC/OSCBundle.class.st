@@ -25,7 +25,7 @@ OSCBundle >> print: somePackets onOSCStream: aStream [
 	self printTimeTagOnOSCStream: aStream.
 	somePackets do: [ :aPacket |
 		aPacket oSCSize printOnOSCStream: aStream.
-		aStream nextPutAll: aPacket byteArray ]
+		aStream nextPutAll: aPacket bytes ]
 	
 ]
 

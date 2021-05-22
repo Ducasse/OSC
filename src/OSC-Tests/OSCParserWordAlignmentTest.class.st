@@ -2,7 +2,7 @@
 After the null that terminates a string, a well-formed incoming OSC message stream will have been padded with nulls if needed to reach a 32-bit word boundary, as per the OSC specification. This test checks that the parser handles this OK wherever the boundary may fall for a particular string in an incoming message.
 "
 Class {
-	#name : #OSCParserTest3,
+	#name : #OSCParserWordAlignmentTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'string',
@@ -16,7 +16,7 @@ Class {
 }
 
 { #category : #setup }
-OSCParserTest3 >> setUp [
+OSCParserWordAlignmentTest >> setUp [
 	self setUpString.
 	self setUpStartingNumberArray.
 	self setUpEndingNumberArray.
@@ -26,14 +26,14 @@ OSCParserTest3 >> setUp [
 ]
 
 { #category : #setup }
-OSCParserTest3 >> setUpEndingNumberArray [
+OSCParserWordAlignmentTest >> setUpEndingNumberArray [
 	endingNumberArray := string asArray collect: [ :each | each asInteger ]  
 	
 
 ]
 
 { #category : #setup }
-OSCParserTest3 >> setUpNumberArrays [
+OSCParserWordAlignmentTest >> setUpNumberArrays [
 	|  endArray |
 	numberArrays := Dictionary new.
 	(1 to: 4) keysAndValuesDo:
@@ -46,7 +46,7 @@ OSCParserTest3 >> setUpNumberArrays [
 ]
 
 { #category : #setup }
-OSCParserTest3 >> setUpParsedMessages [
+OSCParserWordAlignmentTest >> setUpParsedMessages [
 	parsedMessages := Dictionary new.
 	streams keysAndValuesDo: 
 		[ :key :value |  parsedMessages at: key put: (OSCParser parse: value ascii) ].
@@ -56,7 +56,7 @@ OSCParserTest3 >> setUpParsedMessages [
 ]
 
 { #category : #setup }
-OSCParserTest3 >> setUpStartingNumberArray [
+OSCParserWordAlignmentTest >> setUpStartingNumberArray [
 	| headerString typeMarker sizeOfPad nulls headerArray |
 	headerString := 'Head'.
 	typeMarker := ',s'.
@@ -68,7 +68,7 @@ OSCParserTest3 >> setUpStartingNumberArray [
 ]
 
 { #category : #setup }
-OSCParserTest3 >> setUpStreams [
+OSCParserWordAlignmentTest >> setUpStreams [
 	streams := Dictionary new.
 	numberArrays keysAndValuesDo: [ :key :value |  streams at: key put: (self streamFromArray: value) ].
 		
@@ -77,35 +77,24 @@ OSCParserTest3 >> setUpStreams [
 ]
 
 { #category : #setup }
-OSCParserTest3 >> setUpString [
+OSCParserWordAlignmentTest >> setUpString [
 	string := 'Reaktivision is  highly Groovy 0123456789' 
 	
 
 ]
 
 { #category : #converting }
-OSCParserTest3 >> streamFromArray: anArray [
-	| stream |
-	stream:= (RWBinaryOrTextStream on: (String new: 2048)) binary; yourself.
-	anArray  do: [:each  | stream nextPut: each asInteger].
-	stream reset.
-	^ stream binary
-
-
-
-	
+OSCParserWordAlignmentTest >> streamFromArray: anArray [
+	^(ByteArray streamContents: [:out |
+		anArray do: [:each | out nextPut: each asInteger ].
+	]) readStream.
 ]
 
 { #category : #tests }
-OSCParserTest3 >> testWordAlignment [
-
-	parsedMessages keysAndValuesDo: [ :key :value | 
-		"Transcript cr; show:  ' Actual - ' , ((parsedMessages at:key) first second); cr.
+OSCParserWordAlignmentTest >> testWordAlignment [
+	parsedMessages keysAndValuesDo: [ :key :value | "Transcript cr; show:  ' Actual - ' , ((parsedMessages at:key) first second); cr.
 		Transcript cr; show:  ' Should be - ', ( string copyFrom: key to: string size ); cr."
-		 self assert:  ((parsedMessages at: key) first second ) equals:  (string copyFrom: key to: string size) ].
-
-
-
-		
-
+		self
+			assert: (parsedMessages at: key) first second
+			equals: (string copyFrom: key to: string size) ]
 ]
