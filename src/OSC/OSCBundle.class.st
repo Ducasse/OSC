@@ -31,6 +31,12 @@ OSCBundle >> print: somePackets onOSCStream: aStream [
 
 { #category : #printing }
 OSCBundle >> printTimeTagOnOSCStream: aStream [
-	"Not yet implemented, just print 8 empty bytes"
-	8 timesRepeat: [ aStream nextPut: 0 ]
+	"Add a timestamp with 50 milliseconds of latency, as necessary to use together with SuperCollider - remove addLatency: 50000000 or change the latency value
+	if necesaary"
+| dateAndTimeInBytes |
+	
+	dateAndTimeInBytes := (DateAndTime now addLatency: 50000000 ) asNTPTimeStamp  .
+	
+	aStream nextPutAll: dateInBytes  
+
 ]
