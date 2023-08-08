@@ -1,6 +1,6 @@
 Extension { #name : #DateAndTime }
 " convert DateAndTime to NTPTimestamp for OSC bundles"
-{ #category : #'*LiveCoding' }
+{ #category : #'*OSC-printing' }
 DateAndTime >> asNTPTimeStamp [
 
 	| sec microsec ntpTimeStamp |
@@ -12,7 +12,7 @@ DateAndTime >> asNTPTimeStamp [
 	^ ntpTimeStamp
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : #'*OSC-printing' }
 DateAndTime >> asNTPTimeStampWithLatency [
 " convert DateAndTime to NTPTimestamp for OSC bundles and adds 50 milliseconds of latency, to schedule messages ahead of time in SuperCollider"
 	| sec microsec ntpTimeStamp latency |
@@ -25,13 +25,13 @@ DateAndTime >> asNTPTimeStampWithLatency [
 	^ ntpTimeStamp
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : #'*OSC-printing'}
 DateAndTime >> microSecond [
 
 ^ nanos / 1000
 ]
 
-{ #category : #'*LiveCoding' }
+{ #category : #'*OSC-printing'}
 DateAndTime >> plusMicroseconds: microseconds [
 
 	"operand conforms to protocol Duration"
