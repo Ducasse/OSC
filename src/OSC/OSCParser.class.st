@@ -110,8 +110,12 @@ OSCParser >> parseString [
 
 { #category : #accessing }
 OSCParser >> parseTimestamp [ 
-	self shouldBeImplemented 
-
+   |byteTimestamp |
+	byteTimestamp:= (9 to: 16) collect: [ :i | byteStream contents at: i ].
+	"byteTimeStamp should be transformed into a readable date"
+	message add: byteTimestamp .
+	
+	
 ]
 
 { #category : #action }

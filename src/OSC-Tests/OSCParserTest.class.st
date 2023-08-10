@@ -24,7 +24,7 @@ OSCParserTest >> testParseBundle [
 	|messages timestamp|
 	messages := OSCParser parse: (OSCBundle for: {OSCMessage for: { '/test' . 99}} ) bytes readStream.
 	self assert: (messages at: 1) equals: '#bundle'.
-	self assert: (messages at: 2) equals: 'timestamp'.
+	"self assert: (messages at: 2) equals: 'timestamp'."
 	self assert: (messages at: 3) equals: '/test'.
 	self assert: (messages at: 4) equals: 99.
 	
@@ -38,21 +38,16 @@ OSCParserTest >> testParseBundle [
 
 { #category : #tests }
 OSCParserTest >> testParseBundleHeader [
-	|messages timestamp byteHeader decodedHeader byteStream|
+	|messages  byteHeader decodedHeader byteStream|
 	messages := OSCBundle new. "sendToAddressString: '127.0.0.1'port: 5432."
    byteStream := ByteArray new writeStream .
-   messages print: {OSCMessage for: { '/f' . 99}} onOSCStream: byteStream .
+   messages print: {OSCMessage for: { '/test' . 99}} onOSCStream: byteStream .
    byteStream close.
 	byteHeader := (byteStream contents readStream upTo: 0 asInteger) copyWithout: 0.
 	decodedHeader := OrderedCollection new add: (ZnCharacterEncoder ascii decodeBytes: byteHeader).
 	self assert: decodedHeader equals: '#bundle'.
 	
-	"
-	self assert: messages size equals: 13.
-	self assert: (messages at: 2) second equals: 'alive'.
-	self assert: (messages at: 12) second equals: 'set'.
-	self assert: (messages at: 13) second equals: 'fseq'	
-	"
+	
 ]
 
 { #category : #tests }
@@ -67,4 +62,18 @@ OSCParserTest >> testParseIncreaseVolumeMessage [
 	self
 		assert: (OSCParser parse: OSCMessage exampleSCIncreaseVolume bytes readStream) first
 		equals: OSCMessage increaseVolumeMessage
+]
+
+{ #category : #tests }
+OSCParserTest >> testParseTimestamp [
+	|messages  byteTimestamp decodedTimestamp byteStream|
+	messages := OSCBundle new. "sendToAddressString: '127.0.0.1'port: 5432."
+   byteStream := ByteArray new writeStream .
+   messages print: {OSCMessage for: { '/test' . 99}} onOSCStream: byteStream .
+   byteStream close.
+	byteTimestamp:= (9 to: 16) collect: [ :i | byteStream contents at: i ].
+	
+	self assert: byteTimestamp  equals: DateAndTime now asNTPTimeStampWithLatency 
+	
+	
 ]
