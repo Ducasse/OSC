@@ -48,6 +48,17 @@ OSCParser >> parseBlob [
 ]
 
 { #category : #accessing }
+OSCParser >> parseBundle [
+	self 
+		parseHeader;
+		parseTimestamp;
+		parseHeader; 
+		parseTypes;
+		parseValues.
+	^message asArray
+]
+
+{ #category : #accessing }
 OSCParser >> parseFloat [
 	message add: (Float fromIEEE32Bit: (byteStream binary nextNumber: 4))
 ]
@@ -66,6 +77,15 @@ OSCParser >> parseInt32 [
 ]
 
 { #category : #accessing }
+OSCParser >> parseMessage [
+	self 
+		parseHeader;
+		parseTypes;
+		parseValues.
+	^message asArray
+]
+
+{ #category : #accessing }
 OSCParser >> parseNextValueTyped: aType [
 	aType = 105 "i" ifTrue: [^self parseInt32].
 	aType = 102 "f" ifTrue: [^self parseFloat].
@@ -80,6 +100,12 @@ OSCParser >> parseString [
 	message add: (ZnCharacterEncoder ascii decodeBytes: (byteStream upTo: 0)).
 	(4 - (byteStream position)) \\ 4 timesRepeat: [ byteStream next ]
 	
+]
+
+{ #category : #accessing }
+OSCParser >> parseTimestamp [ 
+	self shouldBeImplemented 
+
 ]
 
 { #category : #action }

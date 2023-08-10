@@ -21,12 +21,19 @@ OSCParserTest >> testParse [
 
 { #category : #tests }
 OSCParserTest >> testParseBundle [
-	|messages|
-	messages := OSCParser parse: self rawBundle readStream.
+	|messages timestamp|
+	messages := OSCParser parse: (OSCBundle for: {OSCMessage for: { '/test' . 99}} ).
+	self assert: (messages at: 1) equals: '#bundle'.
+	self assert: (messages at: 2) equals: 'timestamp'.
+	self assert: (messages at: 3) equals: '/test'.
+	self assert: (messages at: 4) equals: 99.
+	
+	"
 	self assert: messages size equals: 13.
 	self assert: (messages at: 2) second equals: 'alive'.
 	self assert: (messages at: 12) second equals: 'set'.
 	self assert: (messages at: 13) second equals: 'fseq'	
+	"
 ]
 
 { #category : #tests }
