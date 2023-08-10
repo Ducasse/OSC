@@ -52,10 +52,16 @@ OSCParser >> parseBundle [
 	self 
 		parseHeader;
 		parseTimestamp;
-		parseHeader; 
-		parseTypes;
-		parseValues.
+		parseMessage.
 	^message asArray
+]
+
+{ #category : #accessing }
+OSCParser >> parseBundleHeader [
+	|header|
+	header := (byteStream upTo: 0) copyWithout: 0.
+	message add: (ZnCharacterEncoder ascii decodeBytes: header).
+
 ]
 
 { #category : #accessing }
