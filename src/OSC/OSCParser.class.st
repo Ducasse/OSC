@@ -48,6 +48,23 @@ OSCParser >> parseBlob [
 ]
 
 { #category : #accessing }
+OSCParser >> parseBundle [
+	self 
+		parseHeader;
+		parseTimestamp;
+		parseMessage.
+	^message asArray
+]
+
+{ #category : #accessing }
+OSCParser >> parseBundleHeader [
+	|header|
+	header := (byteStream upTo: 0) copyWithout: 0.
+	message add: (ZnCharacterEncoder ascii decodeBytes: header).
+
+]
+
+{ #category : #accessing }
 OSCParser >> parseFloat [
 	message add: (Float fromIEEE32Bit: (byteStream binary nextNumber: 4))
 ]
@@ -66,6 +83,15 @@ OSCParser >> parseInt32 [
 ]
 
 { #category : #accessing }
+OSCParser >> parseMessage [
+	self 
+		parseHeader;
+		parseTypes;
+		parseValues.
+	^message asArray
+]
+
+{ #category : #accessing }
 OSCParser >> parseNextValueTyped: aType [
 	aType = 105 "i" ifTrue: [^self parseInt32].
 	aType = 102 "f" ifTrue: [^self parseFloat].
@@ -79,6 +105,16 @@ OSCParser >> parseNextValueTyped: aType [
 OSCParser >> parseString [
 	message add: (ZnCharacterEncoder ascii decodeBytes: (byteStream upTo: 0)).
 	(4 - (byteStream position)) \\ 4 timesRepeat: [ byteStream next ]
+	
+]
+
+{ #category : #accessing }
+OSCParser >> parseTimestamp [ 
+   |byteTimestamp |
+	byteTimestamp:= (9 to: 16) collect: [ :i | byteStream contents at: i ].
+	"byteTimeStamp should be transformed into a readable date"
+	message add: byteTimestamp .
+	
 	
 ]
 

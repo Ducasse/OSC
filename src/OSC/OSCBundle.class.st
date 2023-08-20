@@ -37,6 +37,6 @@ OSCBundle >> printTimeTagOnOSCStream: aStream [
 	
 	dateAndTimeInBytes := (DateAndTime now addLatency: 50000000 ) asNTPTimeStamp  .
 	
-	aStream nextPutAll: dateInBytes  
+	aStream nextPutAll: dateAndTimeInBytes  
 
 ]

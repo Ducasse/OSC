@@ -1,9 +1,10 @@
 Extension { #name : #DateAndTime }
-" convert DateAndTime to NTPTimestamp for OSC bundles"
+
 { #category : #'*OSC-printing' }
 DateAndTime >> asNTPTimeStamp [
-
+" convert DateAndTime to NTPTimestamp for OSC bundles and adds 50 milliseconds of latency, to schedule messages ahead of time in SuperCollider"
 	| sec microsec ntpTimeStamp |
+	
 	sec := self asUnixTime + 2208988800 asByteArrayOfSize: 4.
 	microsec := (self nanoSecond * (2 raisedToInteger: 32)
 	            / (10 raisedToInteger: 9)) asInteger asByteArrayOfSize: 4.
@@ -25,13 +26,13 @@ DateAndTime >> asNTPTimeStampWithLatency [
 	^ ntpTimeStamp
 ]
 
-{ #category : #'*OSC-printing'}
+{ #category : #'*OSC-printing' }
 DateAndTime >> microSecond [
 
 ^ nanos / 1000
 ]
 
-{ #category : #'*OSC-printing'}
+{ #category : #'*OSC-printing' }
 DateAndTime >> plusMicroseconds: microseconds [
 
 	"operand conforms to protocol Duration"
