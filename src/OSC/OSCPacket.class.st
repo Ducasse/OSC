@@ -33,6 +33,13 @@ OSCPacket >> initializeFor: somePackets [
 	self print: somePackets onOSCStream: byteStream
 ]
 
+{ #category : #testing }
+OSCPacket >> isBundle [
+	^ (byteStream contents at: 1 ) = 35
+	
+ 
+]
+
 { #category : #accessing }
 OSCPacket >> oSCSize [
 	^self bytes size
