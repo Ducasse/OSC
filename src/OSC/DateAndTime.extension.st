@@ -46,3 +46,16 @@ DateAndTime >> plusMicroseconds: microseconds [
 		  offset: self offset;
 		  yourself
 ]
+{ #category : #'*OSC-printing' }
+[
+	addLatency: aLatencyInNanoSeconds
+	"add nanoseconds to the current time"
+
+	
+	^ self class basicNew
+		setJdn: julianDayNumber
+			seconds: seconds
+			nano: nanos + aLatencyInNanoSeconds 
+			offset: self offset;
+		yourself
+]
