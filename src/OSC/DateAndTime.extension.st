@@ -32,20 +32,7 @@ DateAndTime >> microSecond [
 ^ nanos / 1000
 ]
 
-{ #category : #'*OSC-printing' }
-DateAndTime >> plusMicroseconds: microseconds [
 
-	"operand conforms to protocol Duration"
-
-	| extraSeconds extraNanoseconds |
-	
-	^ self class basicNew
-		  setJdn: julianDayNumber 
-		  seconds: seconds + extraSeconds 
-		  nano: nanos + extraNanoseconds 
-		  offset: self offset;
-		  yourself
-]
 { #category : #'*OSC-printing' }
 [
 	addLatency: aLatencyInNanoSeconds
