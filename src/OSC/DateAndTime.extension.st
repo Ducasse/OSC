@@ -34,8 +34,8 @@ DateAndTime >> microSecond [
 
 
 { #category : #'*OSC-printing' }
-[
-	addLatency: aLatencyInNanoSeconds
+
+	DateAndTime >> addLatency: aLatencyInNanoSeconds [
 	"add nanoseconds to the current time"
 
 	
