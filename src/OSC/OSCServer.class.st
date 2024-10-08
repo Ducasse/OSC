@@ -80,6 +80,8 @@ OSCServer >> receive: aByteStream [
 
 { #category : #'initialize-release' }
 OSCServer >> terminate [
-	socket notNil ifTrue: [socket destroy].
+	socket notNil ifTrue: [socket close.  "Explicitly close the socket"
+        socket destroy.
+        socket := nil.].
 	process notNil ifTrue: [process terminate]
 ]
