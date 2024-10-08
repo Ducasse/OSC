@@ -9,6 +9,7 @@ Class {
 		'socket',
 		'messageQueue',
 		'responsePeriod'
+		'messageCallback;
 	],
 	#category : #'OSC-Kernel'
 }
@@ -29,6 +30,9 @@ OSCServer >> initialize [
 	super initialize.
 	messageQueue := SharedQueue new.
 	responsePeriod := 10.
+	messageCallback := [ :a :v |
+	                   ('OSC address: ' , a , ' value: ' , v asString)
+		                   traceCr ]
 ]
 
 { #category : #action }
@@ -53,10 +57,24 @@ OSCServer >> nextMessage [
 	^ messageQueue next
 ]
 
+{ #category : #accessing }
+OSCServer >> messageCalback [
+	^ messageCalback
+]
+
+{ #category : #accessing }
+OSCServer >> messageCalback: aBlockWith2Arguments [
+	messageCallback := aBlockWith2Arguments
+]	
 { #category : #action }
 OSCServer >> receive: aByteStream [
 	(OSCParser parse: aByteStream)
-		do: [:eachMessageArray |  messageQueue nextPut: eachMessageArray].
+		do: [:eachMessageArray |  
+		paramAddress := ((eachMessageArray at: 1) findTokens: '/' last) at:
+			                2.
+		messageQueue nextPut: eachMessageArray.
+		messageCallback value: paramAddress value: (eachMessageArray at: 2)
+		].
 	Delay forMilliseconds: responsePeriod.
 ]
 
