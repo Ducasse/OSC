@@ -1,3 +1,7 @@
+"
+OSC Packet ishe unit of transmission of OSC is an . Any application that sends OSC Packets is an OSC Client; any application that receives OSC Packets is an OSC Server
+An OSC packet consists of its contents , a contiguous block of binary data, and its size , the number of 8-bit bytes that comprise the contents. The size of an OSC packet is always a multiple of 4.
+"
 Class {
 	#name : #OSCPacket,
 	#superclass : #Object,
