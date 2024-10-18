@@ -8,8 +8,8 @@ Class {
 		'process',
 		'socket',
 		'messageQueue',
-		'responsePeriod'
-		'messageCallback;
+		'responsePeriod',
+		'messageCallback'
 	],
 	#category : #'OSC-Kernel'
 }
