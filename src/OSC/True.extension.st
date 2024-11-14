@@ -1,6 +1,6 @@
-Extension { #name : #True }
+Extension { #name : 'True' }
 
-{ #category : #'*OSC-printing' }
+{ #category : '*OSC-printing' }
 True >> printTypeOnOSCStream: aStream [
 	aStream nextPut: $T asInteger
 ]

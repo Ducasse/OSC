@@ -1,24 +1,26 @@
 Class {
-	#name : #OSCBundle,
-	#superclass : #OSCPacket,
+	#name : 'OSCBundle',
+	#superclass : 'OSCPacket',
 	#instVars : [
 		'packets'
 	],
-	#category : #'OSC-Kernel'
+	#category : 'OSC-Kernel',
+	#package : 'OSC',
+	#tag : 'Kernel'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCBundle class >> example1 [
 	^self for: {OSCMessage example1 .  OSCMessage example2}
 	
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCBundle class >> example2 [
 	^self for: {OSCBundle example1 . OSCMessage example3}
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 OSCBundle >> print: somePackets onOSCStream: aStream [
 
 	'#bundle' printOnOSCStream: aStream.
@@ -29,7 +31,7 @@ OSCBundle >> print: somePackets onOSCStream: aStream [
 	
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 OSCBundle >> printTimeTagOnOSCStream: aStream [
 	"Add a timestamp with 50 milliseconds of latency, as necessary to use together with SuperCollider - remove addLatency: 50000000 or change the latency value
 	if necesaary"

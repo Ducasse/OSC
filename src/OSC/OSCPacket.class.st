@@ -1,56 +1,58 @@
 Class {
-	#name : #OSCPacket,
-	#superclass : #Object,
+	#name : 'OSCPacket',
+	#superclass : 'Object',
 	#instVars : [
 		'byteStream'
 	],
-	#category : #'OSC-Kernel'
+	#category : 'OSC-Kernel',
+	#package : 'OSC',
+	#tag : 'Kernel'
 }
 
-{ #category : #'access to cache' }
+{ #category : 'access to cache' }
 OSCPacket class >> for: somePackets [
 	^ self new initializeFor: somePackets 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCPacket >> byteArray [
 	^self byteStream binary contents
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCPacket >> byteStream [
 	^byteStream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCPacket >> bytes [
 	^self byteStream contents
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 OSCPacket >> initializeFor: somePackets [
 	byteStream := ByteArray new writeStream.
 	self print: somePackets onOSCStream: byteStream
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 OSCPacket >> isBundle [
 	^ (byteStream contents at: 1 ) = 35
 	
  
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCPacket >> oSCSize [
 	^self bytes size
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 OSCPacket >> print: somePackets onOSCStream: aStream [
 	self subclassResponsibility
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 OSCPacket >> sendTo: aByteArray port: aPort [ 
 	"Take care, A byte array is not a string.
 	If you want to send to e.g. '192.168.0.2' 
@@ -67,7 +69,7 @@ OSCPacket >> sendTo: aByteArray port: aPort [
 		 destroy
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 OSCPacket >> sendToAddressString: anAddressString port: aPort [ 
 	self 
 		sendTo: ((anAddressString findTokens: '.') collect: [:e | e asNumber]) 
@@ -75,7 +77,7 @@ OSCPacket >> sendToAddressString: anAddressString port: aPort [
 		port: aPort
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 OSCPacket >> sendToYourself [
 	self sendTo: NetNameResolver localHostAddress port: 57123
 ]

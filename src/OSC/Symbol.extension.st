@@ -1,6 +1,6 @@
-Extension { #name : #Symbol }
+Extension { #name : 'Symbol' }
 
-{ #category : #'*OSC-printing' }
+{ #category : '*OSC-printing' }
 Symbol >> printTypeOnOSCStream: aStream [
 	aStream nextPut: $s asInteger.
 ]

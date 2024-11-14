@@ -1,76 +1,78 @@
 Class {
-	#name : #OSCMessage,
-	#superclass : #OSCPacket,
-	#category : #'OSC-Kernel'
+	#name : 'OSCMessage',
+	#superclass : 'OSCPacket',
+	#category : 'OSC-Kernel',
+	#package : 'OSC',
+	#tag : 'Kernel'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCMessage class >> example1 [
 	^self for: {'/example1' . 100}
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCMessage class >> example2 [
 	^self for: {'/example2' . 'tester' . 10.4}
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCMessage class >> example3 [
 	^self for: {'/example3' . 20 . 30 . 'bla'}
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCMessage class >> exampleBerkeley2 [
 	^self for: self exampleBerkeley2Message
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCMessage class >> exampleBerkeley2Message [
 	^{'/foo' . 1000 . -1 . 'hello' . 1.234 . 5.678}
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCMessage class >> exampleBerkeley3 [
 	^self for: self exampleBerkeley3Message
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCMessage class >> exampleBerkeley3Message [
 	^{'/foo' . 1000 . -1 . 'hello' .1.125 . 4.0625 }
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCMessage class >> exampleSCA [
 	^self for: {'a' . 1 . 0.2}
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCMessage class >> exampleSCDecreaseVolume [
 	^self for: {'/sc/mixer/volume' . 1 . 0.2}
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCMessage class >> exampleSCIncreaseVolume [
 	^self for: self increaseVolumeMessage
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCMessage class >> exampleSCRun [
 	"self exampleSCRun sendTo: '10.0.1.2' port: 22"
 	^self for: {'/sc/run'}
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCMessage class >> exampleSCStop [
 	^self for: {'/sc/stop'}
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 OSCMessage class >> increaseVolumeMessage [
 	^{'/sc/mixer/volume' . 1 . 1.0}
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 OSCMessage >> print: someArguments onOSCStream: aStream [
 
 	| someParams |
@@ -84,7 +86,7 @@ OSCMessage >> print: someArguments onOSCStream: aStream [
 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 OSCMessage >> printAddress: anAddress onOSCStream: aStream [
 
 	anAddress printOnOSCStream: aStream
@@ -92,7 +94,7 @@ OSCMessage >> printAddress: anAddress onOSCStream: aStream [
 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 OSCMessage >> printTypesOf: someValues on: aStream [
 	someValues isEmpty ifTrue: [^self].	
 	someValues do: [ :each | each printTypeOnOSCStream: aStream ].
@@ -100,7 +102,7 @@ OSCMessage >> printTypesOf: someValues on: aStream [
 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 OSCMessage >> printValues: someValues onOSCStream: aStream [
 	someValues do: [ :each | each printOnOSCStream: aStream ]
 
