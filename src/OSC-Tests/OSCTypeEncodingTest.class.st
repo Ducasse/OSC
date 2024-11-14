@@ -1,10 +1,11 @@
 Class {
-	#name : #OSCTypeEncodingTest,
-	#superclass : #TestCase,
-	#category : #'OSC-Tests'
+	#name : 'OSCTypeEncodingTest',
+	#superclass : 'TestCase',
+	#category : 'OSC-Tests',
+	#package : 'OSC-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 OSCTypeEncodingTest >> testEncodeFloat [
 	|aStream|
 	aStream := ByteArray new writeStream.
@@ -12,7 +13,7 @@ OSCTypeEncodingTest >> testEncodeFloat [
 	self assert: aStream contents equals: #[65 44 27 113].
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 OSCTypeEncodingTest >> testEncodeSmallInteger [
 	| aStream |
 	aStream := ByteArray new writeStream.
@@ -20,7 +21,7 @@ OSCTypeEncodingTest >> testEncodeSmallInteger [
 	self assert: aStream contents equals: #[0 0 4 100].
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 OSCTypeEncodingTest >> testEncodeString [
 	|expectedBytes bytesFromEncoder|
 	expectedBytes := ByteArray streamContents: [:out |

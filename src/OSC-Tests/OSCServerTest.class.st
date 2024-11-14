@@ -1,19 +1,21 @@
 Class {
-	#name : #OSCServerTest,
-	#superclass : #TestCase,
-	#category : #'OSC-Tests'
+	#name : 'OSCServerTest',
+	#superclass : 'TestCase',
+	#category : 'OSC-Tests',
+	#package : 'OSC-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 OSCServerTest >> testSendAndReceive [
+
 	| server |
 	server := OSCServer listenOnPort: 5432.
-	[ 
+	[
 	OSCMessage example1
 		sendTo: NetNameResolver localHostAddress
 		port: 5432.
-	(Delay forDuration: (Duration milliSeconds: 30)) wait.
+	30 milliSeconds wait.
 	self assert: server hasMessage.
-	self assert: server nextMessage equals: #( '/example1' 100 ) ] 
+	self assert: server nextMessage equals: #( '/example1' 100 ) ]
 		ensure: [ server terminate ]
 ]
