@@ -61,7 +61,7 @@ OSCParserTest >> testParseIncreaseVolumeMessage [
 
 { #category : 'tests' }
 OSCParserTest >> testParseTimestamp [
-	|messages  byteTimestamp decodedTimestamp byteStream|
+	|messages  byteTimestamp  byteStream|
 	messages := OSCBundle new. "sendToAddressString: '127.0.0.1'port: 5432."
    byteStream := ByteArray new writeStream .
    messages print: {OSCMessage for: { '/test' . 99}} onOSCStream: byteStream .
