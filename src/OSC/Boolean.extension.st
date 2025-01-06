@@ -1,6 +1,6 @@
-Extension { #name : #Boolean }
+Extension { #name : 'Boolean' }
 
-{ #category : #'*OSC-printing' }
+{ #category : '*OSC-printing' }
 Boolean >> printOnOSCStream: aStream [
 	^self
 ]

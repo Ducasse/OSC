@@ -3,17 +3,19 @@ OSCParser is a message parser.
 Its main method is parse: which returns a collection of messages. 
 "
 Class {
-	#name : #OSCParser,
-	#superclass : #Object,
+	#name : 'OSCParser',
+	#superclass : 'Object',
 	#instVars : [
 		'byteStream',
 		'message',
 		'types'
 	],
-	#category : #'OSC-Kernel'
+	#category : 'OSC-Kernel',
+	#package : 'OSC',
+	#tag : 'Kernel'
 }
 
-{ #category : #parse }
+{ #category : 'parse' }
 OSCParser class >> parse: aByteStream [
 	| messageArrays messageArray |		
 	messageArrays := OrderedCollection new.	
@@ -26,14 +28,14 @@ OSCParser class >> parse: aByteStream [
 	^messageArrays
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 OSCParser >> initializeFor: aByteStream [
 	byteStream := aByteStream.
 	message := OrderedCollection new.
 	types := OrderedCollection new.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCParser >> parse [
 	self 
 		parseHeader;
@@ -42,12 +44,12 @@ OSCParser >> parse [
 	^message asArray
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 OSCParser >> parseBlob [
 	^ nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCParser >> parseBundle [
 	self 
 		parseHeader;
@@ -56,7 +58,7 @@ OSCParser >> parseBundle [
 	^message asArray
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCParser >> parseBundleHeader [
 	|header|
 	header := (byteStream upTo: 0) copyWithout: 0.
@@ -64,12 +66,12 @@ OSCParser >> parseBundleHeader [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCParser >> parseFloat [
 	message add: (Float fromIEEE32Bit: (byteStream binary nextNumber: 4))
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCParser >> parseHeader [
 	|header|
 	header := (byteStream upTo: $, asInteger) copyWithout: 0.
@@ -77,12 +79,12 @@ OSCParser >> parseHeader [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCParser >> parseInt32 [
 	message add: byteStream nextInt32
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCParser >> parseMessage [
 	self 
 		parseHeader;
@@ -91,7 +93,7 @@ OSCParser >> parseMessage [
 	^message asArray
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCParser >> parseNextValueTyped: aType [
 	aType = 105 "i" ifTrue: [^self parseInt32].
 	aType = 102 "f" ifTrue: [^self parseFloat].
@@ -101,14 +103,14 @@ OSCParser >> parseNextValueTyped: aType [
 
 ]
 
-{ #category : #parse }
+{ #category : 'parse' }
 OSCParser >> parseString [
 	message add: (ZnCharacterEncoder ascii decodeBytes: (byteStream upTo: 0)).
 	(4 - (byteStream position)) \\ 4 timesRepeat: [ byteStream next ]
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCParser >> parseTimestamp [ 
    |byteTimestamp |
 	byteTimestamp:= (9 to: 16) collect: [ :i | byteStream contents at: i ].
@@ -118,7 +120,7 @@ OSCParser >> parseTimestamp [
 	
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 OSCParser >> parseTypes [
 	| next |
 	byteStream atEnd ifTrue: [^self].
@@ -132,7 +134,7 @@ OSCParser >> parseTypes [
 	self parseTypes.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OSCParser >> parseValues [
 	| aTypeStream |
 	aTypeStream := ReadStream on: types.

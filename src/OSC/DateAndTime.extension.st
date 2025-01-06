@@ -1,6 +1,19 @@
-Extension { #name : #DateAndTime }
+Extension { #name : 'DateAndTime' }
 
-{ #category : #'*OSC-printing' }
+{ #category : '*OSC-printing' }
+DateAndTime >> addLatency: aLatencyInNanoSeconds [
+	"add nanoseconds to the current time"
+
+	
+	^ self class basicNew
+		setJdn: julianDayNumber
+			seconds: seconds
+			nano: nanos + aLatencyInNanoSeconds 
+			offset: self offset;
+		yourself
+]
+
+{ #category : '*OSC-printing' }
 DateAndTime >> asNTPTimeStamp [
 " convert DateAndTime to NTPTimestamp for OSC bundles and adds 50 milliseconds of latency, to schedule messages ahead of time in SuperCollider"
 	| sec microsec ntpTimeStamp |
@@ -13,7 +26,7 @@ DateAndTime >> asNTPTimeStamp [
 	^ ntpTimeStamp
 ]
 
-{ #category : #'*OSC-printing' }
+{ #category : '*OSC-printing' }
 DateAndTime >> asNTPTimeStampWithLatency [
 " convert DateAndTime to NTPTimestamp for OSC bundles and adds 50 milliseconds of latency, to schedule messages ahead of time in SuperCollider"
 	| sec microsec ntpTimeStamp latency |
@@ -26,23 +39,8 @@ DateAndTime >> asNTPTimeStampWithLatency [
 	^ ntpTimeStamp
 ]
 
-{ #category : #'*OSC-printing' }
+{ #category : '*OSC-printing' }
 DateAndTime >> microSecond [
 
 ^ nanos / 1000
-]
-
-
-{ #category : #'*OSC-printing' }
-
-	DateAndTime >> addLatency: aLatencyInNanoSeconds [
-	"add nanoseconds to the current time"
-
-	
-	^ self class basicNew
-		setJdn: julianDayNumber
-			seconds: seconds
-			nano: nanos + aLatencyInNanoSeconds 
-			offset: self offset;
-		yourself
 ]

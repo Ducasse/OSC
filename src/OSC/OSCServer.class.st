@@ -2,8 +2,8 @@
 OSCServer is a simple server listening for messages (instance of OSCMessage) on a port.
 "
 Class {
-	#name : #OSCServer,
-	#superclass : #Object,
+	#name : 'OSCServer',
+	#superclass : 'Object',
 	#instVars : [
 		'process',
 		'socket',
@@ -11,21 +11,23 @@ Class {
 		'responsePeriod',
 		'messageCallback'
 	],
-	#category : #'OSC-Kernel'
+	#category : 'OSC-Kernel',
+	#package : 'OSC',
+	#tag : 'Kernel'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OSCServer class >> listenOnPort: aPort [
 	"(self listenOnPort: 7010) inspect"
 	^self new listenOnPort: aPort
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 OSCServer >> hasMessage [
 	^messageQueue isEmpty not
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 OSCServer >> initialize [
 	super initialize.
 	messageQueue := SharedQueue new.
@@ -35,7 +37,7 @@ OSCServer >> initialize [
 		                   traceCr ]
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 OSCServer >> listenOnPort: aPort [
 	| buffer bytesReceived |
 	self terminate.
@@ -52,33 +54,33 @@ OSCServer >> listenOnPort: aPort [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
+OSCServer >> messageCalback [
+	^ messageCallback
+]
+
+{ #category : 'accessing' }
+OSCServer >> messageCalback: aBlockWith2Arguments [
+	messageCallback := aBlockWith2Arguments
+]
+
+{ #category : 'accessing' }
 OSCServer >> nextMessage [
 	^ messageQueue next
 ]
 
-{ #category : #accessing }
-OSCServer >> messageCalback [
-	^ messageCalback
-]
-
-{ #category : #accessing }
-OSCServer >> messageCalback: aBlockWith2Arguments [
-	messageCallback := aBlockWith2Arguments
-]	
-{ #category : #action }
+{ #category : 'action' }
 OSCServer >> receive: aByteStream [
-	(OSCParser parse: aByteStream)
-		do: [:eachMessageArray |  
-		paramAddress := ((eachMessageArray at: 1) findTokens: '/' last) at:
-			                2.
+
+	(OSCParser parse: aByteStream) do: [ :eachMessageArray |
+		"| paramAddress |
+		paramAddress := ((eachMessageArray first) findTokens: $/) at: 2."
 		messageQueue nextPut: eachMessageArray.
-		messageCallback value: paramAddress value: (eachMessageArray at: 2)
-		].
-	Delay forMilliseconds: responsePeriod.
+		messageCallback value: eachMessageArray "first value: (eachMessageArray at: 2 ifAbsent: [nil])" ].
+	Delay forMilliseconds: responsePeriod
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 OSCServer >> terminate [
 	socket notNil ifTrue: [socket close.  "Explicitly close the socket"
         socket destroy.

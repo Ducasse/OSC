@@ -1,11 +1,11 @@
-Extension { #name : #UndefinedObject }
+Extension { #name : 'UndefinedObject' }
 
-{ #category : #'*OSC-printing' }
+{ #category : '*OSC-printing' }
 UndefinedObject >> printOnOSCStream: aStream [
 	^self
 ]
 
-{ #category : #'*OSC-printing' }
+{ #category : '*OSC-printing' }
 UndefinedObject >> printTypeOnOSCStream: aStream [
 	aStream nextPut: $N asInteger
 

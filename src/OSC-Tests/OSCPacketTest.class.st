@@ -1,10 +1,11 @@
 Class {
-	#name : #OSCPacketTest,
-	#superclass : #TestCase,
-	#category : #'OSC-Tests'
+	#name : 'OSCPacketTest',
+	#superclass : 'TestCase',
+	#category : 'OSC-Tests',
+	#package : 'OSC-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 OSCPacketTest >> testOSCPacketIsBundle [
 
 | pk |

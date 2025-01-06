@@ -1,6 +1,6 @@
-Extension { #name : #String }
+Extension { #name : 'String' }
 
-{ #category : #'*OSC-printing' }
+{ #category : '*OSC-printing' }
 String >> printOnOSCStream: aStream [
 
 	self isEmpty ifTrue: [^self].
@@ -9,7 +9,7 @@ String >> printOnOSCStream: aStream [
 
 ]
 
-{ #category : #'*OSC-printing' }
+{ #category : '*OSC-printing' }
 String >> printTypeOnOSCStream: aStream [
 	aStream nextPut: $s asInteger
 

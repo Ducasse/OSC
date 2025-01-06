@@ -1,6 +1,6 @@
-Extension { #name : #False }
+Extension { #name : 'False' }
 
-{ #category : #'*OSC-printing' }
+{ #category : '*OSC-printing' }
 False >> printTypeOnOSCStream: aStream [
 	aStream nextPut: $F asInteger
 ]

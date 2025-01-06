@@ -1,17 +1,18 @@
 Class {
-	#name : #OSCMessageEncodingTest,
-	#superclass : #TestCase,
-	#category : #'OSC-Tests'
+	#name : 'OSCMessageEncodingTest',
+	#superclass : 'TestCase',
+	#category : 'OSC-Tests',
+	#package : 'OSC-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 OSCMessageEncodingTest >> testByteArrayDecreaseVolume [
 	self 
 		assert: OSCMessage exampleSCDecreaseVolume bytes
 		equals: #[47 115 99 47 109 105 120 101 114 47 118 111 108 117 109 101 0 0 0 0 44 105 102 0 0 0 0 1 62 76 204 205].
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 OSCMessageEncodingTest >> testByteArrayIncreaseVolume [
 	self 
 		assert: OSCMessage exampleSCIncreaseVolume bytes
@@ -19,14 +20,14 @@ OSCMessageEncodingTest >> testByteArrayIncreaseVolume [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 OSCMessageEncodingTest >> testByteArrayRun [
 	self
 		assert: OSCMessage exampleSCRun bytes
 		equals: ('/sc/run' , (String with: (Character value: 0) with: $,)) asByteArray
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 OSCMessageEncodingTest >> testByteArrayStop [	
 	self 
 		assert: OSCMessage exampleSCStop bytes
@@ -35,7 +36,7 @@ OSCMessageEncodingTest >> testByteArrayStop [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 OSCMessageEncodingTest >> testExampleBerkeley2 [
 	"See http://www.cnmat.berkeley.edu/OpenSoundControl/OSC-spec-examples.html"
 	self 
