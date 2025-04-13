@@ -55,13 +55,13 @@ OSCServer >> listenOnPort: aPort [
 ]
 
 { #category : 'accessing' }
-OSCServer >> messageCalback [
-	^ messageCallback
+OSCServer >> messageCalback: aBlockWith2Arguments [
+	messageCallback := aBlockWith2Arguments
 ]
 
 { #category : 'accessing' }
-OSCServer >> messageCalback: aBlockWith2Arguments [
-	messageCallback := aBlockWith2Arguments
+OSCServer >> messageCallback [
+	^ messageCallback
 ]
 
 { #category : 'accessing' }

@@ -2,7 +2,6 @@
 An OSC message in Pharo  consists of an OSC Address Pattern followed by followed by zero or more OSC Arguments.
 An OSC Address Pattern is an OSC-string beginning with the character ‘/’ (forward slash).
 "
-
 Class {
 	#name : 'OSCMessage',
 	#superclass : 'OSCPacket',

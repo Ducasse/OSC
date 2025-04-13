@@ -1,7 +1,6 @@
 "
 An OSC Bundle consists of the OSC-string “#bundle” followed by an OSC Time Tag , followed by zero or more OSC Bundle Elements. 
 "
-
 Class {
 	#name : 'OSCBundle',
 	#superclass : 'OSCPacket',
