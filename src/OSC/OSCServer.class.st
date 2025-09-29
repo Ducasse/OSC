@@ -76,7 +76,7 @@ OSCServer >> receive: aByteStream [
 		"| paramAddress |
 		paramAddress := ((eachMessageArray first) findTokens: $/) at: 2."
 		messageQueue nextPut: eachMessageArray.
-		messageCallback value: eachMessageArray "first value: (eachMessageArray at: 2 ifAbsent: [nil])" ].
+		messageCallback value: eachMessageArray first value: (eachMessageArray at: 2 ifAbsent: [nil]) ].
 	Delay forMilliseconds: responsePeriod
 ]
 
